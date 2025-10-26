@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Form</title>
+</head>
+<body>
+  <h1 style="text-align: center;">Sign Up Form</h1>
+  <hr><br>
+
+  <form id="signupForm">
+    <label for="user">Name: </label>
+    <input type="text" id="user" name="user" placeholder="User Name" required><br><br>
+
+    <label for="email">Email: </label>
+    <input type="email" id="email" name="usermail" placeholder="User Mail" required><br><br>
+
+    <label for="pass">Password: </label>
+    <input type="password" id="pass" name="userpass" placeholder="*****" required><br><br>
+
+    <label for="phn">Phone Number: </label><br>
+    <select id="code" name="code">
+      <option value="+880">+880</option>
+      <option value="+125">+125</option>
+      <option value="+887">+887</option>
+      <option value="+987">+987</option>
+      <option value="+687">+687</option>
+      <option value="+659">+659</option>
+    </select>
+    <input type="number" id="phn" name="userphn" placeholder="1234567" required><br><br>
+
+    <label for="country">Country:</label>
+    <input list="coun" id="country" name="country" placeholder="Select Country">
+    <datalist id="coun">
+      <option value="Bangladesh">
+      <option value="Pakistan">
+      <option value="Barcelona">
+      <option value="Real Madrid">
+      <option value="Srilanka">
+      <option value="New Zealand">
+    </datalist><br><br>
+
+    Gender:
+    <input type="radio" id="gnd1" name="gender" value="Male">
+    <label for="gnd1">Male</label>
+    <input type="radio" id="gnd2" name="gender" value="Female">
+    <label for="gnd2">Female</label><br><br>
+
+    <label for="date">Date of Birth: </label>
+    <input type="date" id="dob" name="dob"><br><br>
+
+    <label for="time">Time: </label>
+    <input type="time" id="time" name="time"><br><br>
+
+    <label for="colors">Favorite Color: </label>
+    <input type="color" id="colors" name="col"><br><br>
+
+    <label for="file">Choose File: </label>
+    <input type="file" id="file" name="filee"><br><br>
+
+    Vehicles you own:<br>
+    <input type="checkbox" id="vehicle1" name="vehicle" value="Bike">
+    <label for="vehicle1">I have a Bike</label><br>
+    <input type="checkbox" id="vehicle2" name="vehicle" value="Bicycle">
+    <label for="vehicle2">I have a Bicycle</label><br>
+    <input type="checkbox" id="vehicle3" name="vehicle" value="Car">
+    <label for="vehicle3">I have a Car</label><br><br>
+
+    <label for="comment">Comment:</label><br>
+    <textarea id="comment" name="comment" cols="30" rows="10" placeholder="Comment Here"></textarea><br><br>
+
+    <input type="submit" value="Send">
+    <input type="reset" value="Reset">
+  </form>
+
+  <script>
+    const form = document.getElementById("signupForm");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      // Collect all checkbox values
+      const vehicles = [];
+      document.querySelectorAll('input[name="vehicle"]:checked').forEach(cb => {
+        vehicles.push(cb.value);
+      });
+
+      const data = {
+        name: document.getElementById("user").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("pass").value,
+        phone: document.getElementById("phn").value,
+        code: document.getElementById("code").value,
+        country: document.getElementById("country").value,
+        gender: document.querySelector('input[name="gender"]:checked')?.value || "",
+        dob: document.getElementById("dob").value,
+        time: document.getElementById("time").value,
+        color: document.getElementById("colors").value,
+        file: document.getElementById("file").value,
+        vehicles: vehicles.join(", "),
+        comment: document.getElementById("comment").value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbwffiCTgrHAE8-EHEj3Y3h5-gy4UI9f5lquz5Hh_hp6QabTcQUNHoD3WOgjv7u3pAI2/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.text())
+      .then(msg => alert("✅ Form submitted successfully!"))
+      .catch(err => alert("❌ Error: " + err));
+    });
+  </script>
+</body>
+</html>
